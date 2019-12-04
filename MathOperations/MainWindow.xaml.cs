@@ -64,9 +64,11 @@ namespace MathOperations
             }
 
             var args = new object[] { new string[] { "1", "6" } };
-            calculatorAssembly.EntryPoint.Invoke(null, args);
-
+            var result = calculatorAssembly.EntryPoint.Invoke(null, args);
+            string[] endResult =  ((string)result).Split(':');
             context.Unload();
+            //Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal)
+            
         }
 
         private void Changing(object sender, DependencyPropertyChangedEventArgs e)
