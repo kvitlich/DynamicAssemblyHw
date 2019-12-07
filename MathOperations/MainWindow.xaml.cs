@@ -67,27 +67,26 @@ namespace MathOperations
         private void ProcessFactorial(string assemblyPath, out WeakReference weakReference)
         {
             var args = enterTextBox.Text.Split(',');
+            MessageBox.Show(args.FirstOrDefault());
             CalculatorAssemblyLoadContext context = new CalculatorAssemblyLoadContext();
-            //var calculatorAssembly = context.LoadFromAssemblyPath(assemblyPath) ;
-            var calculatorAssembly = Assembly.LoadFrom(assemblyPath);
-    //        MessageBox.Show($"{types[0].GetMethod("Factorial").Name}");
-            weakReference = new WeakReference(context, true);i888888888888ouuuuuuuuuuuueeeeeeeeeeeeeeeeeeeeeewssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssxd
+            var calculatorAssembly = Assembly.LoadFile(assemblyPath);
+           
+            weakReference = new WeakReference(context, true);
+
+            Object mainObject = calculatorAssembly.CreateInstance("Factorial.MathOperations", false);
+            MethodInfo executedMethod = calculatorAssembly.GetType("Factorial.MathOperations").GetMethod("Factorial");
+            Object returnedResult = executedMethod.Invoke(mainObject, new Object[] { args });
+
+
             var resultFactorialCalc = calculatorAssembly.EntryPoint.Invoke(null, new object[] { args });
-            //string[] endResultAsStr = (resultFactorialCalc.ToString()).Split(' ');
-            List<NumberResult> results = new List<NumberResult>();
-            //for (int i = 0; i < results.Count; i++)
-            //{
-            //    results.Add(new NumberResult { Result = endResultAsStr[0] });
-            //}
+            List<NumberResult> results = new List<NumberResult>();            
             context.Unload();
-            StreamReader reader = new StreamReader(@"C:\Users\ww\source\repos\Factorial\Factorial\bin\Debug\netcoreapp3.0\results.txt");
-            var readedToEnd = reader.ReadToEnd();
-            MessageBox.Show(readedToEnd);
-            var resultFactorials = readedToEnd.Split(' ');
-            for (int i = 0; i < resultFactorials.Length; i++)
+            long[] returnedResultAsLong = returnedResult as long[];
+            for (int i = 0; i < returnedResultAsLong.Length; i++)
             {
-                results.Add( new NumberResult { Result = resultFactorials[i] });
+                results.Add(new NumberResult { Result = returnedResultAsLong[i].ToString()});
             }
+
             dataGrid.ItemsSource = results;
 
         }
