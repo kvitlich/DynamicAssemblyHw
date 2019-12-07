@@ -30,7 +30,7 @@ namespace MathOperations
         private void CountFactorial(object sender, RoutedEventArgs e)
         {
             var currentDomain = AppDomain.CurrentDomain;
-            var assemblyPath = @"C:\Users\ww\source\repos\Factorial\Factorial\bin\Debug\netcoreapp3.0\Factorial.dll";
+            var assemblyPath = $@"{Directory.GetCurrentDirectory().Replace(@"\MathOperations\bin\Debug\netcoreapp3.0", "")}\Factorial\Factorial\bin\Debug\netcoreapp3.0\Factorial.dll";
             bool tryParseFlag = false;
             WeakReference weakReference;
             string[] args = enterTextBox.Text.Split(',');
